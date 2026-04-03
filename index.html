@@ -3,16 +3,17 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>SourceMind AI</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400f;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
     rel="stylesheet" />
   <style>
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
     }
 
     :root {
@@ -31,6 +32,7 @@
       --danger: #ff4d4d;
       --yt: #ff4444;
       --yt-dim: #ff444420;
+      --sidebar-w: 260px;
     }
 
     html,
@@ -39,48 +41,54 @@
       overflow: hidden;
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Mono', monospace
+      font-family: 'DM Mono', monospace;
+      font-size: 14px
     }
 
     .app {
       display: flex;
-      height: 100vh
+      height: 100vh;
+      position: relative
     }
 
-    /* sidebar */
+    /* ── sidebar ── */
     .sidebar {
-      width: 260px;
-      min-width: 260px;
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
       background: var(--bg2);
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      overflow: hidden
+      overflow: hidden;
+      transition: transform .25s ease;
+      z-index: 100;
     }
 
     .sidebar-header {
-      padding: 24px 20px 16px;
-      border-bottom: 1px solid var(--border)
+      padding: 20px 16px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0
     }
 
     .logo {
       font-family: 'Syne', sans-serif;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--accent);
       letter-spacing: -0.3px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px
     }
 
     .logo-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--accent);
-      animation: pulse 2s ease-in-out infinite
+      animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0
     }
 
     @keyframes pulse {
@@ -92,20 +100,20 @@
       }
 
       50% {
-        opacity: .5;
-        transform: scale(.8)
+        opacity: .4;
+        transform: scale(.7)
       }
     }
 
     .new-chat-btn {
       width: 100%;
-      padding: 10px 14px;
+      padding: 9px 12px;
       background: var(--accent);
       color: #0a0a0f;
       border: none;
       border-radius: 8px;
       font-family: 'Syne', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       letter-spacing: .3px;
@@ -121,25 +129,26 @@
     }
 
     .new-chat-btn:active {
-      transform: scale(.98)
+      transform: scale(.97)
     }
 
     .sessions-label {
-      padding: 16px 20px 8px;
-      font-size: 10px;
+      padding: 14px 16px 6px;
+      font-size: 9px;
       letter-spacing: 1.5px;
       color: var(--text3);
-      text-transform: uppercase
+      text-transform: uppercase;
+      flex-shrink: 0
     }
 
     .sessions-list {
       flex: 1;
       overflow-y: auto;
-      padding: 0 10px 16px
+      padding: 0 8px 12px
     }
 
     .sessions-list::-webkit-scrollbar {
-      width: 3px
+      width: 2px
     }
 
     .sessions-list::-webkit-scrollbar-thumb {
@@ -148,12 +157,16 @@
     }
 
     .session-item {
-      padding: 10px 12px;
+      padding: 9px 10px;
       border-radius: 8px;
       cursor: pointer;
       margin-bottom: 2px;
       transition: background .12s;
-      border: 1px solid transparent
+      border: 1px solid transparent;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      position: relative;
     }
 
     .session-item:hover {
@@ -170,8 +183,13 @@
       border-color: #ff444430
     }
 
+    .session-info {
+      flex: 1;
+      min-width: 0
+    }
+
     .session-title {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text);
       white-space: nowrap;
       overflow: hidden;
@@ -181,21 +199,22 @@
     }
 
     .session-date {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--text3);
       margin-top: 3px;
       display: flex;
       align-items: center;
-      gap: 5px
+      gap: 4px
     }
 
     .type-badge {
-      font-size: 9px;
-      padding: 1px 5px;
+      font-size: 8px;
+      padding: 1px 4px;
       border-radius: 3px;
       font-family: 'Syne', sans-serif;
       font-weight: 600;
-      letter-spacing: .3px
+      letter-spacing: .3px;
+      flex-shrink: 0
     }
 
     .type-badge.pdf {
@@ -208,37 +227,109 @@
       color: var(--yt)
     }
 
-    .sessions-empty {
-      padding: 20px 12px;
-      font-size: 11px;
+    .delete-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
       color: var(--text3);
-      text-align: center;
-      line-height: 1.6
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity .12s, background .12s, color .12s;
+      margin-top: 1px;
     }
 
-    /* main */
+    .session-item:hover .delete-btn {
+      opacity: 1
+    }
+
+    .delete-btn:hover {
+      background: #ff4d4d20;
+      color: var(--danger)
+    }
+
+    .sessions-empty {
+      padding: 20px 10px;
+      font-size: 10px;
+      color: var(--text3);
+      text-align: center;
+      line-height: 1.7
+    }
+
+    /* ── overlay for mobile sidebar ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #00000080;
+      z-index: 99;
+    }
+
+    .sidebar-overlay.show {
+      display: block
+    }
+
+    /* ── main ── */
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
-      overflow: hidden
+      overflow: hidden;
+      min-width: 0
     }
 
-    /* welcome */
+    /* ── mobile top bar ── */
+    .mobile-bar {
+      display: none;
+      padding: 12px 16px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text2);
+      padding: 4px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .mobile-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      flex: 1
+    }
+
+    /* ── welcome ── */
     .welcome {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px;
+      padding: 24px 20px;
+      overflow-y: auto;
       animation: fadein .4s ease
     }
 
     @keyframes fadein {
       from {
         opacity: 0;
-        transform: translateY(10px)
+        transform: translateY(8px)
       }
 
       to {
@@ -249,11 +340,11 @@
 
     .welcome-title {
       font-family: 'Syne', sans-serif;
-      font-size: 36px;
+      font-size: 28px;
       font-weight: 700;
       color: var(--text);
       letter-spacing: -1px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center
     }
 
@@ -262,32 +353,31 @@
     }
 
     .welcome-sub {
-      font-size: 13px;
+      font-size: 11px;
       color: var(--text2);
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       line-height: 1.6
     }
 
-    /* toggle */
     .source-toggle {
       display: flex;
       background: var(--bg3);
       border: 1px solid var(--border2);
       border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 20px;
+      padding: 3px;
+      margin-bottom: 16px;
       width: 100%;
-      max-width: 480px
+      max-width: 440px
     }
 
     .toggle-btn {
       flex: 1;
-      padding: 9px;
+      padding: 8px;
       border: none;
       border-radius: 7px;
       font-family: 'Syne', sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: all .15s;
@@ -296,7 +386,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px
+      gap: 5px
     }
 
     .toggle-btn.active-pdf {
@@ -309,13 +399,12 @@
       color: #fff
     }
 
-    /* upload */
     .upload-zone {
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       border: 1.5px dashed var(--border2);
-      border-radius: 14px;
-      padding: 32px;
+      border-radius: 12px;
+      padding: 24px;
       text-align: center;
       cursor: pointer;
       transition: border-color .2s, background .2s;
@@ -330,13 +419,13 @@
     }
 
     .upload-icon {
-      font-size: 28px;
-      margin-bottom: 10px;
-      opacity: .6
+      font-size: 24px;
+      margin-bottom: 8px;
+      opacity: .5
     }
 
     .upload-text {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text2);
       line-height: 1.6
     }
@@ -355,19 +444,19 @@
 
     .yt-zone {
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       display: none
     }
 
     .yt-input {
       width: 100%;
-      padding: 16px;
+      padding: 14px;
       background: var(--bg2);
       border: 1.5px solid var(--border2);
-      border-radius: 14px;
+      border-radius: 12px;
       color: var(--text);
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       outline: none;
       transition: border-color .2s
     }
@@ -381,30 +470,30 @@
     }
 
     .yt-hint {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text3);
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: center
     }
 
     .file-list {
       width: 100%;
-      max-width: 480px;
-      margin-top: 10px;
+      max-width: 440px;
+      margin-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 6px
+      gap: 5px
     }
 
     .file-chip {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
+      gap: 8px;
+      padding: 7px 10px;
       background: var(--bg3);
-      border-radius: 8px;
+      border-radius: 7px;
       border: 1px solid var(--border);
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text2)
     }
 
@@ -422,15 +511,15 @@
 
     .session-title-input {
       width: 100%;
-      max-width: 480px;
-      margin-top: 14px;
-      padding: 12px 16px;
+      max-width: 440px;
+      margin-top: 12px;
+      padding: 11px 14px;
       background: var(--bg2);
       border: 1px solid var(--border2);
-      border-radius: 10px;
+      border-radius: 9px;
       color: var(--text);
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       outline: none;
       transition: border-color .2s
     }
@@ -444,20 +533,20 @@
     }
 
     .start-btn {
-      margin-top: 14px;
-      padding: 12px 32px;
+      margin-top: 12px;
+      padding: 11px 28px;
       background: var(--accent);
       color: #0a0a0f;
       border: none;
-      border-radius: 10px;
+      border-radius: 9px;
       font-family: 'Syne', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: opacity .15s, transform .1s;
       display: flex;
       align-items: center;
-      gap: 8px
+      gap: 7px
     }
 
     .start-btn.yt-mode {
@@ -470,7 +559,7 @@
     }
 
     .start-btn:active {
-      transform: scale(.98)
+      transform: scale(.97)
     }
 
     .start-btn:disabled {
@@ -480,8 +569,8 @@
 
     .uploading-bar {
       width: 100%;
-      max-width: 480px;
-      margin-top: 10px;
+      max-width: 440px;
+      margin-top: 8px;
       height: 2px;
       background: var(--border);
       border-radius: 2px;
@@ -515,7 +604,7 @@
       }
     }
 
-    /* chat */
+    /* ── chat ── */
     .chat-screen {
       flex: 1;
       display: flex;
@@ -525,19 +614,38 @@
     }
 
     .chat-header {
-      padding: 16px 24px;
+      padding: 14px 20px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: var(--bg2)
+      gap: 10px;
+      background: var(--bg2);
+      flex-shrink: 0
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0
+    }
+
+    .back-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text2);
+      padding: 4px;
+      border-radius: 6px;
+      flex-shrink: 0
     }
 
     .chat-header-title {
       font-family: 'Syne', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      flex: 1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis
@@ -545,18 +653,20 @@
 
     .chat-docs {
       display: flex;
-      gap: 6px;
-      flex-wrap: wrap
+      gap: 5px;
+      flex-wrap: wrap;
+      flex-shrink: 0
     }
 
     .doc-tag {
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: 20px;
       background: var(--accent-dim);
       border: 1px solid #c8f04530;
-      font-size: 10px;
+      font-size: 9px;
       color: var(--accent);
-      letter-spacing: .3px
+      letter-spacing: .3px;
+      white-space: nowrap
     }
 
     .doc-tag.yt {
@@ -568,14 +678,14 @@
     .messages {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px
+      gap: 14px
     }
 
     .messages::-webkit-scrollbar {
-      width: 3px
+      width: 2px
     }
 
     .messages::-webkit-scrollbar-thumb {
@@ -586,7 +696,7 @@
     .msg {
       display: flex;
       flex-direction: column;
-      max-width: 80%
+      max-width: 85%
     }
 
     .msg.user {
@@ -600,22 +710,22 @@
     }
 
     .msg-role {
-      font-size: 9px;
+      font-size: 8px;
       letter-spacing: 1.2px;
       text-transform: uppercase;
       color: var(--text3);
-      margin-bottom: 5px;
-      padding: 0 4px
+      margin-bottom: 4px;
+      padding: 0 3px
     }
 
     .msg.user .msg-role {
-      color: #c8f04580
+      color: #c8f04570
     }
 
     .msg-bubble {
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 11px;
+      font-size: 12px;
       line-height: 1.7;
       white-space: pre-wrap;
       word-break: break-word
@@ -636,13 +746,13 @@
     .typing {
       display: flex;
       gap: 4px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       align-items: center
     }
 
     .typing span {
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
       background: var(--text3);
       animation: blink 1.2s ease-in-out infinite
@@ -670,22 +780,23 @@
     }
 
     .input-bar {
-      padding: 16px 24px;
+      padding: 12px 16px;
       border-top: 1px solid var(--border);
       background: var(--bg2);
       display: flex;
-      gap: 10px;
-      align-items: flex-end
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0
     }
 
     .input-wrap {
       flex: 1;
       background: var(--bg3);
       border: 1px solid var(--border2);
-      border-radius: 12px;
+      border-radius: 11px;
       display: flex;
       align-items: flex-end;
-      padding: 4px;
+      padding: 3px;
       transition: border-color .2s
     }
 
@@ -704,10 +815,10 @@
       outline: none;
       color: var(--text);
       font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      padding: 8px 12px;
+      font-size: 12px;
+      padding: 7px 10px;
       resize: none;
-      max-height: 120px;
+      max-height: 100px;
       line-height: 1.5
     }
 
@@ -716,8 +827,8 @@
     }
 
     .send-btn {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       background: var(--accent);
       border: none;
@@ -743,22 +854,104 @@
     }
 
     .send-btn svg {
-      width: 16px;
-      height: 16px
+      width: 14px;
+      height: 14px
     }
 
+    /* ── delete confirm modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #00000090;
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex
+    }
+
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 24px;
+      max-width: 320px;
+      width: 100%
+    }
+
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px
+    }
+
+    .modal-sub {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 20px
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px
+    }
+
+    .modal-cancel {
+      flex: 1;
+      padding: 9px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text2);
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .12s
+    }
+
+    .modal-cancel:hover {
+      background: var(--bg)
+    }
+
+    .modal-delete {
+      flex: 1;
+      padding: 9px;
+      background: #ff4d4d20;
+      border: 1px solid #ff4d4d40;
+      border-radius: 8px;
+      color: var(--danger);
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .12s
+    }
+
+    .modal-delete:hover {
+      background: #ff4d4d30
+    }
+
+    /* ── toast ── */
     .toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       z-index: 999;
-      padding: 10px 16px;
+      padding: 9px 14px;
       border-radius: 8px;
-      font-size: 12px;
+      font-size: 11px;
       background: var(--bg3);
       border: 1px solid var(--border2);
       color: var(--text);
-      display: none
+      display: none;
+      max-width: calc(100vw - 40px)
     }
 
     .toast.show {
@@ -770,19 +963,66 @@
       border-color: #ff4d4d50;
       color: var(--danger)
     }
+
+    /* ── responsive ── */
+    @media(max-width:640px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .mobile-bar {
+        display: flex
+      }
+
+      .back-btn {
+        display: flex
+      }
+
+      .chat-docs {
+        display: none
+      }
+
+      .msg {
+        max-width: 92%
+      }
+
+      .welcome {
+        padding: 16px
+      }
+
+      .welcome-title {
+        font-size: 22px
+      }
+
+      .delete-btn {
+        opacity: 1
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="app">
 
-    <div class="sidebar">
+    <!-- sidebar overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- sidebar -->
+    <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo">
           <div class="logo-dot"></div>SourceMind AI
         </div>
         <button class="new-chat-btn" onclick="showWelcome()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
@@ -795,22 +1035,36 @@
       </div>
     </div>
 
+    <!-- main -->
     <div class="main">
 
+      <!-- mobile top bar -->
+      <div class="mobile-bar" id="mobile-bar">
+        <button class="hamburger" onclick="openSidebar()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <span class="mobile-logo">SourceMind AI</span>
+      </div>
+
+      <!-- welcome screen -->
       <div class="welcome" id="welcome-screen">
         <div class="welcome-title">Ask your <span>sources</span></div>
         <div class="welcome-sub">Chat with PDFs or YouTube videos using hybrid RAG search.</div>
 
         <div class="source-toggle">
           <button class="toggle-btn active-pdf" id="toggle-pdf" onclick="switchMode('pdf')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
             </svg>
             PDF Documents
           </button>
           <button class="toggle-btn" id="toggle-yt" onclick="switchMode('youtube')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
             YouTube Video
@@ -822,7 +1076,7 @@
           <div class="upload-icon">⌗</div>
           <div class="upload-text">
             Drop PDFs here or <strong>click to browse</strong><br />
-            <span style="font-size:11px;color:var(--text3)">Multiple files supported</span>
+            <span style="font-size:10px;color:var(--text3)">Multiple files supported</span>
           </div>
         </div>
 
@@ -840,16 +1094,24 @@
           oninput="updateStartBtn()" />
 
         <button class="start-btn" id="start-btn" onclick="startSession()" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
           <span id="start-label">Upload & Start Chat</span>
         </button>
       </div>
 
+      <!-- chat screen -->
       <div class="chat-screen" id="chat-screen" style="display:none">
         <div class="chat-header">
-          <div class="chat-header-title" id="chat-title">Chat</div>
+          <div class="chat-header-left">
+            <button class="back-btn" onclick="showWelcome()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <div class="chat-header-title" id="chat-title">Chat</div>
+          </div>
           <div class="chat-docs" id="chat-docs"></div>
         </div>
         <div class="messages" id="messages"></div>
@@ -868,311 +1130,383 @@
 
     </div>
   </div>
+
+  <!-- delete confirm modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-title">Delete this chat?</div>
+      <div class="modal-sub">This will permanently remove the conversation. You can always start a new one.</div>
+      <div class="modal-actions">
+        <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+        <button class="modal-delete" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script>
-  const API = 'https://sourcemindai-backend.onrender.com';
+    const API = 'https://sourcemindai-backend.onrender.com';
+    const USER_ID = localStorage.getItem('sm_user_id') || (() => {
+      const id = crypto.randomUUID();
+      localStorage.setItem('sm_user_id', id);
+      return id;
+    })();
 
-  // ✅ NEW — persistent user identity via localStorage
-  const USER_ID = localStorage.getItem('sm_user_id') || (() => {
-    const id = crypto.randomUUID();
-    localStorage.setItem('sm_user_id', id);
-    return id;
-  })();
+    let currentSession = null;
+    let selectedFiles = [];
+    let currentMode = 'pdf';
+    let sessionToDelete = null;
 
-  let currentSession = null;
-  let selectedFiles = [];
-  let currentMode = 'pdf';
-
-  function switchMode(mode) {
-    currentMode = mode;
-    const isPdf = mode === 'pdf';
-    document.getElementById('toggle-pdf').className = 'toggle-btn' + (isPdf ? ' active-pdf' : '');
-    document.getElementById('toggle-yt').className = 'toggle-btn' + (!isPdf ? ' active-yt' : '');
-    document.getElementById('upload-zone').style.display = isPdf ? 'block' : 'none';
-    document.getElementById('yt-zone').style.display = isPdf ? 'none' : 'block';
-    document.getElementById('file-list').innerHTML = '';
-    document.getElementById('yt-url').value = '';
-    selectedFiles = [];
-    const btn = document.getElementById('start-btn');
-    const fill = document.getElementById('uploading-fill');
-    if (isPdf) {
-      btn.classList.remove('yt-mode');
-      fill.classList.remove('yt');
-      document.getElementById('start-label').textContent = 'Upload & Start Chat';
-    } else {
-      btn.classList.add('yt-mode');
-      fill.classList.add('yt');
-      document.getElementById('start-label').textContent = 'Index & Start Chat';
+    // ── sidebar mobile ──
+    function openSidebar() {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.add('show');
     }
-    updateStartBtn();
-  }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('show');
+    }
 
-  document.getElementById('file-input').addEventListener('change', e => {
-    selectedFiles = Array.from(e.target.files);
-    renderFileList();
-  });
+    // ── mode switch ──
+    function switchMode(mode) {
+      currentMode = mode;
+      const isPdf = mode === 'pdf';
+      document.getElementById('toggle-pdf').className = 'toggle-btn' + (isPdf ? ' active-pdf' : '');
+      document.getElementById('toggle-yt').className = 'toggle-btn' + (!isPdf ? ' active-yt' : '');
+      document.getElementById('upload-zone').style.display = isPdf ? 'block' : 'none';
+      document.getElementById('yt-zone').style.display = isPdf ? 'none' : 'block';
+      document.getElementById('file-list').innerHTML = '';
+      document.getElementById('yt-url').value = '';
+      selectedFiles = [];
+      const btn = document.getElementById('start-btn');
+      const fill = document.getElementById('uploading-fill');
+      btn.classList.toggle('yt-mode', !isPdf);
+      fill.classList.toggle('yt', !isPdf);
+      document.getElementById('start-label').textContent = isPdf ? 'Upload & Start Chat' : 'Index & Start Chat';
+      updateStartBtn();
+    }
 
-  const zone = document.getElementById('upload-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.classList.remove('drag');
-    selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.pdf'));
-    renderFileList();
-  });
-
-  function renderFileList() {
-    const list = document.getElementById('file-list');
-    list.innerHTML = '';
-    selectedFiles.forEach(f => {
-      const chip = document.createElement('div');
-      chip.className = 'file-chip';
-      chip.innerHTML = `
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c8f045" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <span class="file-chip-name">${f.name}</span>
-        <span class="file-chip-size">${(f.size / 1024).toFixed(0)} KB</span>
-      `;
-      list.appendChild(chip);
+    // ── file picker ──
+    document.getElementById('file-input').addEventListener('change', e => {
+      selectedFiles = Array.from(e.target.files);
+      renderFileList();
     });
-    updateStartBtn();
-  }
+    const zone = document.getElementById('upload-zone');
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.classList.remove('drag');
+      selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.pdf'));
+      renderFileList();
+    });
 
-  function updateStartBtn() {
-    const title = document.getElementById('session-title').value.trim();
-    let sourceReady = false;
-    if (currentMode === 'pdf') {
-      sourceReady = selectedFiles.length > 0;
-    } else {
-      const url = document.getElementById('yt-url').value.trim();
-      sourceReady = url.includes('youtube') || url.includes('youtu.be');
+    function renderFileList() {
+      const list = document.getElementById('file-list');
+      list.innerHTML = '';
+      selectedFiles.forEach(f => {
+        const chip = document.createElement('div');
+        chip.className = 'file-chip';
+        chip.innerHTML = `
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c8f045" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="file-chip-name">${f.name}</span>
+      <span class="file-chip-size">${(f.size / 1024).toFixed(0)} KB</span>
+    `;
+        list.appendChild(chip);
+      });
+      updateStartBtn();
     }
-    document.getElementById('start-btn').disabled = !sourceReady || !title;
-  }
 
-  async function startSession() {
-    const title = document.getElementById('session-title').value.trim();
-    const btn = document.getElementById('start-btn');
-    btn.disabled = true;
-    document.getElementById('start-label').textContent = 'Processing...';
-    document.getElementById('uploading-bar').classList.add('show');
+    function updateStartBtn() {
+      const title = document.getElementById('session-title').value.trim();
+      let sourceReady = currentMode === 'pdf'
+        ? selectedFiles.length > 0
+        : (document.getElementById('yt-url').value.includes('youtube') || document.getElementById('yt-url').value.includes('youtu.be'));
+      document.getElementById('start-btn').disabled = !sourceReady || !title;
+    }
 
-    try {
-      let docNames = [];
+    // ── start session ──
+    async function startSession() {
+      const title = document.getElementById('session-title').value.trim();
+      const btn = document.getElementById('start-btn');
+      btn.disabled = true;
+      document.getElementById('start-label').textContent = 'Processing...';
+      document.getElementById('uploading-bar').classList.add('show');
 
-      if (currentMode === 'pdf') {
-        const formData = new FormData();
-        selectedFiles.forEach(f => formData.append('files', f));
-        formData.append('user_id', USER_ID);  // ✅ NEW
-        const upRes = await fetch(`${API}/upload_pdf`, { method: 'POST', body: formData });
-        if (!upRes.ok) throw new Error('Upload failed');
-        docNames = selectedFiles.map(f => f.name);
-      } else {
-        const url = document.getElementById('yt-url').value.trim();
-        const ytRes = await fetch(`${API}/upload_youtube_link`, {
+      try {
+        let docNames = [];
+        if (currentMode === 'pdf') {
+          const formData = new FormData();
+          selectedFiles.forEach(f => formData.append('files', f));
+          formData.append('user_id', USER_ID);
+          const upRes = await fetch(`${API}/upload_pdf`, { method: 'POST', body: formData });
+          if (!upRes.ok) throw new Error('Upload failed');
+          docNames = selectedFiles.map(f => f.name);
+        } else {
+          const url = document.getElementById('yt-url').value.trim();
+          const ytRes = await fetch(`${API}/upload_youtube_link`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, user_id: USER_ID })
+          });
+          if (!ytRes.ok) throw new Error('YouTube indexing failed');
+          const ytData = await ytRes.json();
+          docNames = [ytData.doc_name];
+        }
+
+        const sessRes = await fetch(`${API}/session/new`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url, user_id: USER_ID })  // ✅ NEW
+          body: JSON.stringify({ doc_names: docNames, title, user_id: USER_ID })
         });
-        if (!ytRes.ok) throw new Error('YouTube indexing failed');
-        const ytData = await ytRes.json();
-        docNames = [ytData.doc_name];
+        const sessData = await sessRes.json();
+        const sessionId = sessData.session_id || sessData;
+
+        currentSession = { id: sessionId, title, doc_names: docNames, type: currentMode };
+        await loadSessions();
+        openChat(currentSession, []);
+        closeSidebar();
+
+      } catch (e) {
+        showToast(e.message, true);
+        btn.disabled = false;
+        document.getElementById('start-label').textContent = currentMode === 'pdf' ? 'Upload & Start Chat' : 'Index & Start Chat';
+      } finally {
+        document.getElementById('uploading-bar').classList.remove('show');
       }
+    }
 
-      const sessRes = await fetch(`${API}/session/new`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ doc_names: docNames, title, user_id: USER_ID })  // ✅ NEW
+    // ── select session ──
+    async function selectSession(session) {
+      currentSession = session;
+      closeSidebar();
+      try {
+        const res = await fetch(`${API}/session/${session.id}/messages`);
+        const messages = await res.json();
+        openChat(session, messages);
+      } catch (e) {
+        showToast('Could not load chat', true);
+      }
+    }
+
+    function openChat(session, messages) {
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('chat-screen').style.display = 'flex';
+      document.getElementById('mobile-bar').style.display = 'none';
+
+      const isYt = session.type === 'youtube';
+      document.getElementById('chat-title').textContent = session.title;
+
+      const docsEl = document.getElementById('chat-docs');
+      docsEl.innerHTML = (session.doc_names || []).map(d =>
+        `<span class="doc-tag ${isYt ? 'yt' : ''}">${isYt ? '▶ ' : ''}${d}</span>`
+      ).join('');
+
+      document.getElementById('send-btn').classList.toggle('yt-send', isYt);
+      document.getElementById('input-wrap').classList.toggle('yt-chat', isYt);
+
+      const msgsEl = document.getElementById('messages');
+      msgsEl.innerHTML = '';
+      (messages || []).forEach(m => appendMessage(m.role, m.content));
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+
+      document.querySelectorAll('.session-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === session.id);
       });
-      const sessData = await sessRes.json();
-      const sessionId = sessData.session_id || sessData;
-
-      currentSession = { id: sessionId, title, doc_names: docNames, type: currentMode };
-      await loadSessions();
-      openChat(currentSession, []);
-
-    } catch (e) {
-      showToast(e.message, true);
-      btn.disabled = false;
-      document.getElementById('start-label').textContent = currentMode === 'pdf' ? 'Upload & Start Chat' : 'Index & Start Chat';
-    } finally {
-      document.getElementById('uploading-bar').classList.remove('show');
+      document.getElementById('msg-input').focus();
     }
-  }
 
-  async function selectSession(session) {
-    currentSession = session;
-    try {
-      const res = await fetch(`${API}/session/${session.id}/messages`);
-      const messages = await res.json();
-      openChat(session, messages);
-    } catch (e) {
-      showToast('Could not load chat', true);
+    function showWelcome() {
+      document.getElementById('chat-screen').style.display = 'none';
+      document.getElementById('welcome-screen').style.display = 'flex';
+      // show mobile bar only on small screens
+      if (window.innerWidth <= 640) {
+        document.getElementById('mobile-bar').style.display = 'flex';
+      }
+      selectedFiles = [];
+      document.getElementById('file-list').innerHTML = '';
+      document.getElementById('session-title').value = '';
+      document.getElementById('file-input').value = '';
+      document.getElementById('yt-url').value = '';
+      document.getElementById('start-btn').disabled = true;
+      document.getElementById('start-btn').classList.remove('yt-mode');
+      document.getElementById('start-label').textContent = 'Upload & Start Chat';
+      document.querySelectorAll('.session-item').forEach(el => el.classList.remove('active'));
+      currentSession = null;
+      switchMode('pdf');
+      closeSidebar();
     }
-  }
 
-  function openChat(session, messages) {
-    document.getElementById('welcome-screen').style.display = 'none';
-    document.getElementById('chat-screen').style.display = 'flex';
+    // ── send message ──
+    async function sendMessage() {
+      const input = document.getElementById('msg-input');
+      const text = input.value.trim();
+      if (!text || !currentSession) return;
 
-    const isYt = session.type === 'youtube';
-    document.getElementById('chat-title').textContent = session.title;
+      input.value = '';
+      input.style.height = 'auto';
+      document.getElementById('send-btn').disabled = true;
 
-    const docsEl = document.getElementById('chat-docs');
-    docsEl.innerHTML = (session.doc_names || []).map(d =>
-      `<span class="doc-tag ${isYt ? 'yt' : ''}">${isYt ? '▶ ' : ''}${d}</span>`
-    ).join('');
+      appendMessage('user', text);
+      const typingEl = appendTyping();
 
-    const sendBtn = document.getElementById('send-btn');
-    const inputWrap = document.getElementById('input-wrap');
-    sendBtn.classList.toggle('yt-send', isYt);
-    inputWrap.classList.toggle('yt-chat', isYt);
-
-    const msgsEl = document.getElementById('messages');
-    msgsEl.innerHTML = '';
-    (messages || []).forEach(m => appendMessage(m.role, m.content));
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-
-    document.querySelectorAll('.session-item').forEach(el => {
-      el.classList.toggle('active', el.dataset.id === session.id);
-    });
-
-    document.getElementById('msg-input').focus();
-  }
-
-  function showWelcome() {
-    document.getElementById('chat-screen').style.display = 'none';
-    document.getElementById('welcome-screen').style.display = 'flex';
-    selectedFiles = [];
-    document.getElementById('file-list').innerHTML = '';
-    document.getElementById('session-title').value = '';
-    document.getElementById('file-input').value = '';
-    document.getElementById('yt-url').value = '';
-    document.getElementById('start-btn').disabled = true;
-    document.getElementById('start-btn').classList.remove('yt-mode');
-    document.querySelectorAll('.session-item').forEach(el => el.classList.remove('active'));
-    currentSession = null;
-    switchMode('pdf');
-  }
-
-  async function sendMessage() {
-    const input = document.getElementById('msg-input');
-    const text = input.value.trim();
-    if (!text || !currentSession) return;
-
-    input.value = '';
-    input.style.height = 'auto';
-    document.getElementById('send-btn').disabled = true;
-
-    appendMessage('user', text);
-    const typingEl = appendTyping();
-
-    const endpoint = currentSession.type === 'youtube' ? '/chat_youtube' : '/chat_pdfs';
-
-    try {
-      const res = await fetch(`${API}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          session_id: currentSession.id,
-          query_text: text,
-          doc_names: currentSession.doc_names,
-          user_id: USER_ID  // ✅ NEW
-        })
-      });
-      const data = await res.json();
-      typingEl.remove();
-      appendMessage('assistant', data.reply || data);
-    } catch (e) {
-      typingEl.remove();
-      appendMessage('assistant', '⚠ Could not get a response. Please try again.');
-      showToast('Request failed', true);
-    } finally {
-      document.getElementById('send-btn').disabled = false;
-      input.focus();
+      const endpoint = currentSession.type === 'youtube' ? '/chat_youtube' : '/chat_pdfs';
+      try {
+        const res = await fetch(`${API}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: currentSession.id,
+            query_text: text,
+            doc_names: currentSession.doc_names,
+            user_id: USER_ID
+          })
+        });
+        const data = await res.json();
+        typingEl.remove();
+        appendMessage('assistant', data.reply || data);
+      } catch (e) {
+        typingEl.remove();
+        appendMessage('assistant', '⚠ Could not get a response. Please try again.');
+        showToast('Request failed', true);
+      } finally {
+        document.getElementById('send-btn').disabled = false;
+        input.focus();
+      }
     }
-  }
 
-  function appendMessage(role, content) {
-    const msgsEl = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = `msg ${role}`;
-    div.innerHTML = `
-      <div class="msg-role">${role === 'user' ? 'You' : 'SourceMind'}</div>
-      <div class="msg-bubble">${escapeHtml(content)}</div>
-    `;
-    msgsEl.appendChild(div);
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-    return div;
-  }
+    function appendMessage(role, content) {
+      const msgsEl = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      div.innerHTML = `
+    <div class="msg-role">${role === 'user' ? 'You' : 'SourceMind'}</div>
+    <div class="msg-bubble">${escapeHtml(content)}</div>
+  `;
+      msgsEl.appendChild(div);
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+      return div;
+    }
 
-  function appendTyping() {
-    const msgsEl = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = 'msg assistant';
-    div.innerHTML = `<div class="msg-role">SourceMind</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
-    msgsEl.appendChild(div);
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-    return div;
-  }
+    function appendTyping() {
+      const msgsEl = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = 'msg assistant';
+      div.innerHTML = `<div class="msg-role">SourceMind</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+      msgsEl.appendChild(div);
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+      return div;
+    }
 
-  function escapeHtml(t) {
-    return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+    function escapeHtml(t) {
+      return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
 
-  async function loadSessions() {
-    try {
-      const res = await fetch(`${API}/sessions?user_id=${USER_ID}`);  // ✅ NEW
-      const sessions = await res.json();
-      const list = document.getElementById('sessions-list');
+    // ── delete session ──
+    function promptDelete(e, sessionId) {
+      e.stopPropagation();
+      sessionToDelete = sessionId;
+      document.getElementById('modal-overlay').classList.add('show');
+    }
 
-      if (!sessions.length) {
-        list.innerHTML = '<div class="sessions-empty">No chats yet.<br/>Start a new one above.</div>';
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('show');
+      sessionToDelete = null;
+    }
+
+    async function confirmDelete() {
+      if (!sessionToDelete || sessionToDelete === 'null') {
+        closeModal();
         return;
       }
+      if (!sessionToDelete) return;
+      closeModal();
+      try {
+        await fetch(`${API}/session/${sessionToDelete}`, { method: 'DELETE' });
+        if (currentSession && currentSession.id === sessionToDelete) {
+          showWelcome();
+        }
+        sessionToDelete = null;
+        await loadSessions();
+        showToast('Chat deleted');
+      } catch (e) {
+        showToast('Could not delete chat', true);
+      }
+    }
 
-      list.innerHTML = '';
-      sessions.forEach(s => {
-        const isYt = (s.doc_names || []).every(d => !d.includes('.'));
-        s.type = isYt ? 'youtube' : 'pdf';
-        const el = document.createElement('div');
-        el.className = 'session-item' + (isYt ? ' yt-session' : '');
-        el.dataset.id = s.id;
-        const date = new Date(s.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-        el.innerHTML = `
+    // ── load sessions ──
+    async function loadSessions() {
+      try {
+        const res = await fetch(`${API}/sessions?user_id=${USER_ID}`);
+        const sessions = await res.json();
+        const list = document.getElementById('sessions-list');
+
+        if (!sessions.length) {
+          list.innerHTML = '<div class="sessions-empty">No chats yet.<br/>Start a new one above.</div>';
+          return;
+        }
+
+        list.innerHTML = '';
+        sessions.forEach(s => {
+          const isYt = (s.doc_names || []).every(d => !d.includes('.'));
+          s.type = isYt ? 'youtube' : 'pdf';
+          const el = document.createElement('div');
+          el.className = 'session-item' + (isYt ? ' yt-session' : '');
+          el.dataset.id = s.id;
+          const date = new Date(s.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+          el.innerHTML = `
+        <div class="session-info">
           <div class="session-title">${escapeHtml(s.title)}</div>
           <div class="session-date">
             <span class="type-badge ${isYt ? 'yt' : 'pdf'}">${isYt ? 'YT' : 'PDF'}</span>
-            ${date} · ${(s.doc_names || []).length} source${(s.doc_names || []).length !== 1 ? 's' : ''}
+            ${date}
           </div>
-        `;
-        el.onclick = () => selectSession(s);
-        if (currentSession && s.id === currentSession.id) el.classList.add('active');
-        list.appendChild(el);
-      });
-    } catch (e) {
-      console.error('Could not load sessions', e);
+        </div>
+        <button class="delete-btn" title="Delete chat">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      `;
+          el.querySelector('.delete-btn').addEventListener('click', e => promptDelete(e, s.id));
+          el.addEventListener('click', () => selectSession(s));
+          if (currentSession && s.id === currentSession.id) el.classList.add('active');
+          list.appendChild(el);
+        });
+      } catch (e) {
+        console.error('Could not load sessions', e);
+      }
     }
-  }
 
-  const msgInput = document.getElementById('msg-input');
-  msgInput.addEventListener('input', () => {
-    msgInput.style.height = 'auto';
-    msgInput.style.height = Math.min(msgInput.scrollHeight, 120) + 'px';
-  });
-  msgInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  });
+    // ── textarea ──
+    const msgInput = document.getElementById('msg-input');
+    msgInput.addEventListener('input', () => {
+      msgInput.style.height = 'auto';
+      msgInput.style.height = Math.min(msgInput.scrollHeight, 100) + 'px';
+    });
+    msgInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
 
-  function showToast(msg, isError = false) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast show' + (isError ? ' error' : '');
-    setTimeout(() => t.className = 'toast', 3000);
-  }
+    // ── toast ──
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      setTimeout(() => t.className = 'toast', 3000);
+    }
 
-  loadSessions();
-</script>
+    // ── responsive init ──
+    function handleResize() {
+      const isMobile = window.innerWidth <= 640;
+      const mobileBar = document.getElementById('mobile-bar');
+      const welcomeVisible = document.getElementById('welcome-screen').style.display !== 'none';
+      if (isMobile && welcomeVisible) mobileBar.style.display = 'flex';
+      else if (!isMobile) mobileBar.style.display = 'none';
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    loadSessions();
+  </script>
 </body>
 
 </html>
