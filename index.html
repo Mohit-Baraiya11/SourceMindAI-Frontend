@@ -1227,6 +1227,11 @@
 
     // ── start session ──
     async function startSession() {
+        try {
+            await fetch(`${API}/`);
+        } catch(e) {}
+        await new Promise(r => setTimeout(r, 2000));
+
       const title = document.getElementById('session-title').value.trim();
       const btn = document.getElementById('start-btn');
       btn.disabled = true;
