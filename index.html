@@ -856,7 +856,6 @@
 
       .sidebar.open { transform: translateX(0) }
       .mobile-bar { display: flex }
-      .back-btn { display: flex }
       .chat-docs { display: none }
       .msg { max-width: 92% }
       .welcome { padding: 16px }
@@ -865,6 +864,26 @@
 
       .skeleton-bubble.s2 { width: 220px }
       .skeleton-bubble.s4 { width: 200px }
+
+      /* on mobile, chat header always shows back arrow + hamburger */
+      .back-btn { display: flex }
+      .chat-header { gap: 6px }
+
+      /* mobile chat header gets hamburger too */
+      .mobile-chat-menu { display: flex !important }
+    }
+
+    .mobile-chat-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text2);
+      padding: 4px;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -961,7 +980,7 @@
       <div class="chat-screen" id="chat-screen" style="display:none">
         <div class="chat-header">
           <div class="chat-header-left">
-            <button class="back-btn" onclick="showWelcome()">
+            <button class="back-btn" onclick="goBack()">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
@@ -969,6 +988,11 @@
             <div class="chat-header-title" id="chat-title">Chat</div>
           </div>
           <div class="chat-docs" id="chat-docs"></div>
+          <button class="mobile-chat-menu" onclick="openSidebar()" title="All chats">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
         </div>
         <div class="messages" id="messages"></div>
         <div class="input-bar">
@@ -1024,6 +1048,30 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebar-overlay').classList.remove('show');
     }
+
+    // ── back navigation (mobile browser back button fix) ──
+    function pushChatState() {
+      history.pushState({ view: 'chat' }, '');
+    }
+
+    function goBack() {
+      showWelcome();
+    }
+
+    window.addEventListener('popstate', (e) => {
+      // if sidebar is open, close it first
+      if (document.getElementById('sidebar').classList.contains('open')) {
+        closeSidebar();
+        // push state again so next back still works
+        if (currentSession) pushChatState();
+        return;
+      }
+      // if in chat, go to welcome
+      const chatVisible = document.getElementById('chat-screen').style.display !== 'none';
+      if (chatVisible) {
+        showWelcome();
+      }
+    });
 
     // ── mode switch ──
     function switchMode(mode) {
@@ -1232,6 +1280,8 @@
           msgsEl.scrollTop = msgsEl.scrollHeight;
         }
 
+        pushChatState();
+
       } catch (e) {
         hideSkeleton();
         showToast('Could not load chat', true);
@@ -1269,6 +1319,8 @@
       document.querySelectorAll('.session-item').forEach(el => {
         el.classList.toggle('active', el.dataset.id === session.id);
       });
+
+      pushChatState();
       document.getElementById('msg-input').focus();
     }
 
