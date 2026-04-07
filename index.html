@@ -35,8 +35,7 @@
       --sidebar-w: 260px;
     }
 
-    html,
-    body {
+    html, body {
       height: 100%;
       overflow: hidden;
       background: var(--bg);
@@ -92,17 +91,8 @@
     }
 
     @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1)
-      }
-
-      50% {
-        opacity: .4;
-        transform: scale(.7)
-      }
+      0%, 100% { opacity: 1; transform: scale(1) }
+      50% { opacity: .4; transform: scale(.7) }
     }
 
     .new-chat-btn {
@@ -124,13 +114,8 @@
       gap: 6px
     }
 
-    .new-chat-btn:hover {
-      opacity: .88
-    }
-
-    .new-chat-btn:active {
-      transform: scale(.97)
-    }
+    .new-chat-btn:hover { opacity: .88 }
+    .new-chat-btn:active { transform: scale(.97) }
 
     .sessions-label {
       padding: 14px 16px 6px;
@@ -147,14 +132,8 @@
       padding: 0 8px 12px
     }
 
-    .sessions-list::-webkit-scrollbar {
-      width: 2px
-    }
-
-    .sessions-list::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 2px
-    }
+    .sessions-list::-webkit-scrollbar { width: 2px }
+    .sessions-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px }
 
     .session-item {
       padding: 9px 10px;
@@ -169,24 +148,17 @@
       position: relative;
     }
 
-    .session-item:hover {
-      background: var(--bg3)
+    .session-item:hover { background: var(--bg3) }
+    .session-item.active { background: var(--accent-dim); border-color: #c8f04530 }
+    .session-item.yt-session.active { background: var(--yt-dim); border-color: #ff444430 }
+
+    /* loading state for session items */
+    .session-item.loading-tab {
+      pointer-events: none;
+      opacity: .5;
     }
 
-    .session-item.active {
-      background: var(--accent-dim);
-      border-color: #c8f04530
-    }
-
-    .session-item.yt-session.active {
-      background: var(--yt-dim);
-      border-color: #ff444430
-    }
-
-    .session-info {
-      flex: 1;
-      min-width: 0
-    }
+    .session-info { flex: 1; min-width: 0 }
 
     .session-title {
       font-size: 11px;
@@ -217,15 +189,8 @@
       flex-shrink: 0
     }
 
-    .type-badge.pdf {
-      background: var(--accent-dim);
-      color: var(--accent)
-    }
-
-    .type-badge.yt {
-      background: var(--yt-dim);
-      color: var(--yt)
-    }
+    .type-badge.pdf { background: var(--accent-dim); color: var(--accent) }
+    .type-badge.yt { background: var(--yt-dim); color: var(--yt) }
 
     .delete-btn {
       width: 22px;
@@ -244,14 +209,8 @@
       margin-top: 1px;
     }
 
-    .session-item:hover .delete-btn {
-      opacity: 1
-    }
-
-    .delete-btn:hover {
-      background: #ff4d4d20;
-      color: var(--danger)
-    }
+    .session-item:hover .delete-btn { opacity: 1 }
+    .delete-btn:hover { background: #ff4d4d20; color: var(--danger) }
 
     .sessions-empty {
       padding: 20px 10px;
@@ -270,9 +229,7 @@
       z-index: 99;
     }
 
-    .sidebar-overlay.show {
-      display: block
-    }
+    .sidebar-overlay.show { display: block }
 
     /* ── main ── */
     .main {
@@ -327,15 +284,8 @@
     }
 
     @keyframes fadein {
-      from {
-        opacity: 0;
-        transform: translateY(8px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
+      from { opacity: 0; transform: translateY(8px) }
+      to { opacity: 1; transform: none }
     }
 
     .welcome-title {
@@ -348,9 +298,7 @@
       text-align: center
     }
 
-    .welcome-title span {
-      color: var(--accent)
-    }
+    .welcome-title span { color: var(--accent) }
 
     .welcome-sub {
       font-size: 11px;
@@ -389,15 +337,8 @@
       gap: 5px
     }
 
-    .toggle-btn.active-pdf {
-      background: var(--accent);
-      color: #0a0a0f
-    }
-
-    .toggle-btn.active-yt {
-      background: var(--yt);
-      color: #fff
-    }
+    .toggle-btn.active-pdf { background: var(--accent); color: #0a0a0f }
+    .toggle-btn.active-yt { background: var(--yt); color: #fff }
 
     .upload-zone {
       width: 100%;
@@ -412,17 +353,9 @@
       position: relative
     }
 
-    .upload-zone:hover,
-    .upload-zone.drag {
-      border-color: var(--accent);
-      background: var(--accent-dim)
-    }
+    .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: var(--accent-dim) }
 
-    .upload-icon {
-      font-size: 24px;
-      margin-bottom: 8px;
-      opacity: .5
-    }
+    .upload-icon { font-size: 24px; margin-bottom: 8px; opacity: .5 }
 
     .upload-text {
       font-size: 12px;
@@ -430,23 +363,11 @@
       line-height: 1.6
     }
 
-    .upload-text strong {
-      color: var(--accent);
-      font-weight: 400
-    }
+    .upload-text strong { color: var(--accent); font-weight: 400 }
 
-    #file-input {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer
-    }
+    #file-input { position: absolute; inset: 0; opacity: 0; cursor: pointer }
 
-    .yt-zone {
-      width: 100%;
-      max-width: 440px;
-      display: none
-    }
+    .yt-zone { width: 100%; max-width: 440px; display: none }
 
     .yt-input {
       width: 100%;
@@ -461,20 +382,10 @@
       transition: border-color .2s
     }
 
-    .yt-input:focus {
-      border-color: #ff444460
-    }
+    .yt-input:focus { border-color: #ff444460 }
+    .yt-input::placeholder { color: var(--text3) }
 
-    .yt-input::placeholder {
-      color: var(--text3)
-    }
-
-    .yt-hint {
-      font-size: 10px;
-      color: var(--text3);
-      margin-top: 6px;
-      text-align: center
-    }
+    .yt-hint { font-size: 10px; color: var(--text3); margin-top: 6px; text-align: center }
 
     .file-list {
       width: 100%;
@@ -497,17 +408,8 @@
       color: var(--text2)
     }
 
-    .file-chip-name {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap
-    }
-
-    .file-chip-size {
-      color: var(--text3);
-      flex-shrink: 0
-    }
+    .file-chip-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .file-chip-size { color: var(--text3); flex-shrink: 0 }
 
     .session-title-input {
       width: 100%;
@@ -524,13 +426,8 @@
       transition: border-color .2s
     }
 
-    .session-title-input:focus {
-      border-color: #c8f04560
-    }
-
-    .session-title-input::placeholder {
-      color: var(--text3)
-    }
+    .session-title-input:focus { border-color: #c8f04560 }
+    .session-title-input::placeholder { color: var(--text3) }
 
     .start-btn {
       margin-top: 12px;
@@ -549,23 +446,10 @@
       gap: 7px
     }
 
-    .start-btn.yt-mode {
-      background: var(--yt);
-      color: #fff
-    }
-
-    .start-btn:hover {
-      opacity: .88
-    }
-
-    .start-btn:active {
-      transform: scale(.97)
-    }
-
-    .start-btn:disabled {
-      opacity: .35;
-      cursor: not-allowed
-    }
+    .start-btn.yt-mode { background: var(--yt); color: #fff }
+    .start-btn:hover { opacity: .88 }
+    .start-btn:active { transform: scale(.97) }
+    .start-btn:disabled { opacity: .35; cursor: not-allowed }
 
     .uploading-bar {
       width: 100%;
@@ -578,9 +462,7 @@
       display: none
     }
 
-    .uploading-bar.show {
-      display: block
-    }
+    .uploading-bar.show { display: block }
 
     .uploading-fill {
       height: 100%;
@@ -590,18 +472,11 @@
       animation: slide 1s ease-in-out infinite alternate
     }
 
-    .uploading-fill.yt {
-      background: var(--yt)
-    }
+    .uploading-fill.yt { background: var(--yt) }
 
     @keyframes slide {
-      from {
-        margin-left: 0
-      }
-
-      to {
-        margin-left: 70%
-      }
+      from { margin-left: 0 }
+      to { margin-left: 70% }
     }
 
     /* ── chat ── */
@@ -669,11 +544,7 @@
       white-space: nowrap
     }
 
-    .doc-tag.yt {
-      background: var(--yt-dim);
-      border-color: #ff444430;
-      color: var(--yt)
-    }
+    .doc-tag.yt { background: var(--yt-dim); border-color: #ff444430; color: var(--yt) }
 
     .messages {
       flex: 1;
@@ -684,13 +555,80 @@
       gap: 14px
     }
 
-    .messages::-webkit-scrollbar {
-      width: 2px
+    .messages::-webkit-scrollbar { width: 2px }
+    .messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px }
+
+    /* ── skeleton loader ── */
+    .skeleton-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 4px 0;
+      animation: fadein .25s ease;
     }
 
-    .messages::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 2px
+    .skeleton-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skeleton-msg.right { align-items: flex-end }
+    .skeleton-msg.left { align-items: flex-start }
+
+    .skeleton-label {
+      width: 28px;
+      height: 7px;
+      border-radius: 4px;
+      background: var(--bg3);
+      animation: shimmer 1.4s ease-in-out infinite;
+    }
+
+    .skeleton-bubble {
+      border-radius: 11px;
+      background: var(--bg3);
+      animation: shimmer 1.4s ease-in-out infinite;
+    }
+
+    .skeleton-bubble.s1 { width: 240px; height: 38px; animation-delay: .1s }
+    .skeleton-bubble.s2 { width: 320px; height: 68px; animation-delay: .2s }
+    .skeleton-bubble.s3 { width: 200px; height: 28px; animation-delay: 0s }
+    .skeleton-bubble.s4 { width: 280px; height: 88px; animation-delay: .15s }
+    .skeleton-bubble.s5 { width: 160px; height: 28px; animation-delay: .05s }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: .35 }
+      50% { opacity: .7 }
+    }
+
+    /* ── chat loading spinner overlay (center of messages) ── */
+    .chat-loading {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      animation: fadein .2s ease;
+    }
+
+    .spinner-ring {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    .spinner-ring.yt-spinner { border-top-color: var(--yt) }
+
+    @keyframes spin { to { transform: rotate(360deg) } }
+
+    .loading-label {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: .3px;
     }
 
     .msg {
@@ -699,15 +637,8 @@
       max-width: 85%
     }
 
-    .msg.user {
-      align-self: flex-end;
-      align-items: flex-end
-    }
-
-    .msg.assistant {
-      align-self: flex-start;
-      align-items: flex-start
-    }
+    .msg.user { align-self: flex-end; align-items: flex-end }
+    .msg.assistant { align-self: flex-start; align-items: flex-start }
 
     .msg-role {
       font-size: 8px;
@@ -718,9 +649,7 @@
       padding: 0 3px
     }
 
-    .msg.user .msg-role {
-      color: #c8f04570
-    }
+    .msg.user .msg-role { color: #c8f04570 }
 
     .msg-bubble {
       padding: 10px 14px;
@@ -758,25 +687,12 @@
       animation: blink 1.2s ease-in-out infinite
     }
 
-    .typing span:nth-child(2) {
-      animation-delay: .2s
-    }
-
-    .typing span:nth-child(3) {
-      animation-delay: .4s
-    }
+    .typing span:nth-child(2) { animation-delay: .2s }
+    .typing span:nth-child(3) { animation-delay: .4s }
 
     @keyframes blink {
-
-      0%,
-      80%,
-      100% {
-        opacity: .2
-      }
-
-      40% {
-        opacity: 1
-      }
+      0%, 80%, 100% { opacity: .2 }
+      40% { opacity: 1 }
     }
 
     .input-bar {
@@ -800,13 +716,8 @@
       transition: border-color .2s
     }
 
-    .input-wrap:focus-within {
-      border-color: #c8f04550
-    }
-
-    .input-wrap.yt-chat:focus-within {
-      border-color: #ff444450
-    }
+    .input-wrap:focus-within { border-color: #c8f04550 }
+    .input-wrap.yt-chat:focus-within { border-color: #ff444450 }
 
     #msg-input {
       flex: 1;
@@ -822,9 +733,7 @@
       line-height: 1.5
     }
 
-    #msg-input::placeholder {
-      color: var(--text3)
-    }
+    #msg-input::placeholder { color: var(--text3) }
 
     .send-btn {
       width: 34px;
@@ -840,23 +749,10 @@
       transition: opacity .15s
     }
 
-    .send-btn.yt-send {
-      background: var(--yt)
-    }
-
-    .send-btn:hover {
-      opacity: .85
-    }
-
-    .send-btn:disabled {
-      opacity: .3;
-      cursor: not-allowed
-    }
-
-    .send-btn svg {
-      width: 14px;
-      height: 14px
-    }
+    .send-btn.yt-send { background: var(--yt) }
+    .send-btn:hover { opacity: .85 }
+    .send-btn:disabled { opacity: .3; cursor: not-allowed }
+    .send-btn svg { width: 14px; height: 14px }
 
     /* ── delete confirm modal ── */
     .modal-overlay {
@@ -870,9 +766,7 @@
       padding: 20px;
     }
 
-    .modal-overlay.show {
-      display: flex
-    }
+    .modal-overlay.show { display: flex }
 
     .modal {
       background: var(--bg2);
@@ -897,10 +791,7 @@
       margin-bottom: 20px
     }
 
-    .modal-actions {
-      display: flex;
-      gap: 8px
-    }
+    .modal-actions { display: flex; gap: 8px }
 
     .modal-cancel {
       flex: 1;
@@ -916,9 +807,7 @@
       transition: background .12s
     }
 
-    .modal-cancel:hover {
-      background: var(--bg)
-    }
+    .modal-cancel:hover { background: var(--bg) }
 
     .modal-delete {
       flex: 1;
@@ -934,9 +823,7 @@
       transition: background .12s
     }
 
-    .modal-delete:hover {
-      background: #ff4d4d30
-    }
+    .modal-delete:hover { background: #ff4d4d30 }
 
     /* ── toast ── */
     .toast {
@@ -954,15 +841,8 @@
       max-width: calc(100vw - 40px)
     }
 
-    .toast.show {
-      display: block;
-      animation: fadein .2s ease
-    }
-
-    .toast.error {
-      border-color: #ff4d4d50;
-      color: var(--danger)
-    }
+    .toast.show { display: block; animation: fadein .2s ease }
+    .toast.error { border-color: #ff4d4d50; color: var(--danger) }
 
     /* ── responsive ── */
     @media(max-width:640px) {
@@ -974,37 +854,17 @@
         transform: translateX(-100%);
       }
 
-      .sidebar.open {
-        transform: translateX(0)
-      }
+      .sidebar.open { transform: translateX(0) }
+      .mobile-bar { display: flex }
+      .back-btn { display: flex }
+      .chat-docs { display: none }
+      .msg { max-width: 92% }
+      .welcome { padding: 16px }
+      .welcome-title { font-size: 22px }
+      .delete-btn { opacity: 1 }
 
-      .mobile-bar {
-        display: flex
-      }
-
-      .back-btn {
-        display: flex
-      }
-
-      .chat-docs {
-        display: none
-      }
-
-      .msg {
-        max-width: 92%
-      }
-
-      .welcome {
-        padding: 16px
-      }
-
-      .welcome-title {
-        font-size: 22px
-      }
-
-      .delete-btn {
-        opacity: 1
-      }
+      .skeleton-bubble.s2 { width: 220px }
+      .skeleton-bubble.s4 { width: 200px }
     }
   </style>
 </head>
@@ -1012,7 +872,6 @@
 <body>
   <div class="app">
 
-    <!-- sidebar overlay (mobile) -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <!-- sidebar -->
@@ -1023,8 +882,7 @@
         </div>
         <button class="new-chat-btn" onclick="showWelcome()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
+            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
           </svg>
           New Chat
         </button>
@@ -1042,9 +900,7 @@
       <div class="mobile-bar" id="mobile-bar">
         <button class="hamburger" onclick="openSidebar()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
         <span class="mobile-logo">SourceMind AI</span>
@@ -1138,7 +994,7 @@
       <div class="modal-sub">This will permanently remove the conversation. You can always start a new one.</div>
       <div class="modal-actions">
         <button class="modal-cancel" onclick="closeModal()">Cancel</button>
-        <button class="modal-delete" onclick="confirmDelete()">Delete</button>
+        <button class="modal-delete" onclick="confirmDelete()">Yes, delete</button>
       </div>
     </div>
   </div>
@@ -1157,6 +1013,7 @@
     let selectedFiles = [];
     let currentMode = 'pdf';
     let sessionToDelete = null;
+    let isLoadingChat = false;
 
     // ── sidebar mobile ──
     function openSidebar() {
@@ -1208,10 +1065,10 @@
         const chip = document.createElement('div');
         chip.className = 'file-chip';
         chip.innerHTML = `
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c8f045" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      <span class="file-chip-name">${f.name}</span>
-      <span class="file-chip-size">${(f.size / 1024).toFixed(0)} KB</span>
-    `;
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#c8f045" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="file-chip-name">${f.name}</span>
+          <span class="file-chip-size">${(f.size / 1024).toFixed(0)} KB</span>
+        `;
         list.appendChild(chip);
       });
       updateStartBtn();
@@ -1219,10 +1076,47 @@
 
     function updateStartBtn() {
       const title = document.getElementById('session-title').value.trim();
-      let sourceReady = currentMode === 'pdf'
+      const sourceReady = currentMode === 'pdf'
         ? selectedFiles.length > 0
         : (document.getElementById('yt-url').value.includes('youtube') || document.getElementById('yt-url').value.includes('youtu.be'));
       document.getElementById('start-btn').disabled = !sourceReady || !title;
+    }
+
+    // ── skeleton loader ──
+    function showChatSkeleton(isYt) {
+      const msgsEl = document.getElementById('messages');
+      msgsEl.innerHTML = '';
+
+      const skeleton = document.createElement('div');
+      skeleton.className = 'skeleton-wrap';
+      skeleton.id = 'skeleton-wrap';
+
+      // mimic a typical conversation: user → ai → user → ai
+      const pattern = [
+        { side: 'right', cls: 's1' },
+        { side: 'left',  cls: 's2' },
+        { side: 'right', cls: 's3' },
+        { side: 'left',  cls: 's4' },
+        { side: 'right', cls: 's5' },
+        { side: 'left',  cls: 's2' },
+      ];
+
+      pattern.forEach(p => {
+        const msg = document.createElement('div');
+        msg.className = `skeleton-msg ${p.side}`;
+        msg.innerHTML = `
+          <div class="skeleton-label"></div>
+          <div class="skeleton-bubble ${p.cls}"></div>
+        `;
+        skeleton.appendChild(msg);
+      });
+
+      msgsEl.appendChild(skeleton);
+    }
+
+    function hideSkeleton() {
+      const s = document.getElementById('skeleton-wrap');
+      if (s) s.remove();
     }
 
     // ── start session ──
@@ -1233,12 +1127,10 @@
       document.getElementById('start-label').textContent = 'Waking up server...';
       document.getElementById('uploading-bar').classList.add('show');
 
-      // now ping and wait
       try { await fetch(`${API}/`); } catch(e) {}
       await new Promise(r => setTimeout(r, 3000));
-    
-      document.getElementById('start-label').textContent = 'Processing...';
 
+      document.getElementById('start-label').textContent = 'Processing...';
 
       try {
         let docNames = [];
@@ -1256,7 +1148,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url, user_id: USER_ID })
           });
-          if (!ytRes.ok) throw new Error('YouTube indexing failed');
+          if (!ytRes.ok) {
+            const err = await ytRes.json().catch(() => ({}));
+            throw new Error(err.detail || 'YouTube indexing failed');
+          }
           const ytData = await ytRes.json();
           docNames = [ytData.doc_name];
         }
@@ -1285,23 +1180,77 @@
 
     // ── select session ──
     async function selectSession(session) {
+      if (isLoadingChat) return;
+      if (currentSession && currentSession.id === session.id) return; // already open
+
+      isLoadingChat = true;
       currentSession = session;
       closeSidebar();
-      try {
-        const res = await fetch(`${API}/session/${session.id}/messages`);
-        const messages = await res.json();
-        openChat(session, messages);
-      } catch (e) {
-        showToast('Could not load chat', true);
-      }
-    }
 
-    function openChat(session, messages) {
+      // mark active immediately
+      document.querySelectorAll('.session-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === session.id);
+        el.classList.toggle('loading-tab', el.dataset.id === session.id);
+      });
+
+      // show chat shell with skeleton
+      const isYt = session.type === 'youtube';
       document.getElementById('welcome-screen').style.display = 'none';
       document.getElementById('chat-screen').style.display = 'flex';
       document.getElementById('mobile-bar').style.display = 'none';
 
+      document.getElementById('chat-title').textContent = session.title;
+      const docsEl = document.getElementById('chat-docs');
+      docsEl.innerHTML = (session.doc_names || []).map(d =>
+        `<span class="doc-tag ${isYt ? 'yt' : ''}">${isYt ? '▶ ' : ''}${d}</span>`
+      ).join('');
+
+      document.getElementById('send-btn').classList.toggle('yt-send', isYt);
+      document.getElementById('input-wrap').classList.toggle('yt-chat', isYt);
+      document.getElementById('send-btn').disabled = true;
+
+      showChatSkeleton(isYt);
+
+      try {
+        const res = await fetch(`${API}/session/${session.id}/messages`);
+        if (!res.ok) throw new Error('Failed to load');
+        const messages = await res.json();
+
+        hideSkeleton();
+
+        const msgsEl = document.getElementById('messages');
+        msgsEl.innerHTML = '';
+
+        if (messages.length === 0) {
+          // empty state
+          const empty = document.createElement('div');
+          empty.style.cssText = 'text-align:center;padding:40px 0;font-size:11px;color:var(--text3);';
+          empty.textContent = 'No messages yet. Ask something!';
+          msgsEl.appendChild(empty);
+        } else {
+          messages.forEach(m => appendMessage(m.role, m.content));
+          msgsEl.scrollTop = msgsEl.scrollHeight;
+        }
+
+      } catch (e) {
+        hideSkeleton();
+        showToast('Could not load chat', true);
+      } finally {
+        isLoadingChat = false;
+        document.getElementById('send-btn').disabled = false;
+        document.querySelectorAll('.session-item').forEach(el => {
+          el.classList.remove('loading-tab');
+        });
+        document.getElementById('msg-input').focus();
+      }
+    }
+
+    function openChat(session, messages) {
       const isYt = session.type === 'youtube';
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('chat-screen').style.display = 'flex';
+      document.getElementById('mobile-bar').style.display = 'none';
+
       document.getElementById('chat-title').textContent = session.title;
 
       const docsEl = document.getElementById('chat-docs');
@@ -1326,7 +1275,6 @@
     function showWelcome() {
       document.getElementById('chat-screen').style.display = 'none';
       document.getElementById('welcome-screen').style.display = 'flex';
-      // show mobile bar only on small screens
       if (window.innerWidth <= 640) {
         document.getElementById('mobile-bar').style.display = 'flex';
       }
@@ -1387,9 +1335,9 @@
       const div = document.createElement('div');
       div.className = `msg ${role}`;
       div.innerHTML = `
-    <div class="msg-role">${role === 'user' ? 'You' : 'SourceMind'}</div>
-    <div class="msg-bubble">${escapeHtml(content)}</div>
-  `;
+        <div class="msg-role">${role === 'user' ? 'You' : 'SourceMind'}</div>
+        <div class="msg-bubble">${escapeHtml(content)}</div>
+      `;
       msgsEl.appendChild(div);
       msgsEl.scrollTop = msgsEl.scrollHeight;
       return div;
@@ -1426,14 +1374,20 @@
         closeModal();
         return;
       }
-      if (!sessionToDelete) return;
+
+      const idToDelete = sessionToDelete; // capture before closeModal clears it
       closeModal();
+
       try {
-        await fetch(`${API}/session/${sessionToDelete}`, { method: 'DELETE' });
-        if (currentSession && currentSession.id === sessionToDelete) {
+        const res = await fetch(`${API}/session/${idToDelete}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Delete failed');
+
+        // if currently viewing this session, go back to welcome
+        if (currentSession && currentSession.id === idToDelete) {
+          currentSession = null;
           showWelcome();
         }
-        sessionToDelete = null;
+
         await loadSessions();
         showToast('Chat deleted');
       } catch (e) {
@@ -1462,17 +1416,17 @@
           el.dataset.id = s.id;
           const date = new Date(s.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
           el.innerHTML = `
-        <div class="session-info">
-          <div class="session-title">${escapeHtml(s.title)}</div>
-          <div class="session-date">
-            <span class="type-badge ${isYt ? 'yt' : 'pdf'}">${isYt ? 'YT' : 'PDF'}</span>
-            ${date}
-          </div>
-        </div>
-        <button class="delete-btn" title="Delete chat">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-        </button>
-      `;
+            <div class="session-info">
+              <div class="session-title">${escapeHtml(s.title)}</div>
+              <div class="session-date">
+                <span class="type-badge ${isYt ? 'yt' : 'pdf'}">${isYt ? 'YT' : 'PDF'}</span>
+                ${date}
+              </div>
+            </div>
+            <button class="delete-btn" title="Delete chat">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          `;
           el.querySelector('.delete-btn').addEventListener('click', e => promptDelete(e, s.id));
           el.addEventListener('click', () => selectSession(s));
           if (currentSession && s.id === currentSession.id) el.classList.add('active');
