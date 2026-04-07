@@ -1227,16 +1227,18 @@
 
     // ── start session ──
     async function startSession() {
-        try {
-            await fetch(`${API}/`);
-        } catch(e) {}
-        await new Promise(r => setTimeout(r, 5000));
-
       const title = document.getElementById('session-title').value.trim();
       const btn = document.getElementById('start-btn');
       btn.disabled = true;
-      document.getElementById('start-label').textContent = 'Processing...';
+      document.getElementById('start-label').textContent = 'Waking up server...';
       document.getElementById('uploading-bar').classList.add('show');
+
+      // now ping and wait
+      try { await fetch(`${API}/`); } catch(e) {}
+      await new Promise(r => setTimeout(r, 3000));
+    
+      document.getElementById('start-label').textContent = 'Processing...';
+
 
       try {
         let docNames = [];
